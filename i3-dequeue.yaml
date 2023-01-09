@@ -1,0 +1,82 @@
+openapi: 3.0.1
+info:
+  title: Dequeue Registration Service
+  version: "1.0"
+servers:
+  - url: http://localhost/DequeueRegistration/v1
+paths:
+  /Registrations:
+    put:
+      tags:
+        - DequeueRegistration
+      summary: Registers or deregisters an entity as a dequeuer
+      operationId: DequeueRegistration
+      requestBody:
+        description: Registration details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registration'
+        required: true
+      responses:
+        '200':
+          description: Registration successfully updated/created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  expirationTime:
+                    type: integer
+                    format: int32
+                    description: Time in seconds this registration will expire.
+        '400':
+          description: Bad request
+        '454':
+          description: Unspecified Error
+        '456':
+          description: Bad queue
+        '457':
+          description: Bad dequeuePreference
+        '458':
+          description: Policy violation
+  /Versions:
+    servers:
+      - url: https://api.example.com/DequeueRegistration
+        description: Override base path for Versions query
+    get:
+      tags:
+        - RetrieveVersions
+      summary: Retrieves all supported versions, vendor parameter is optional.
+      operationId: RetrieveVersions
+      responses:
+        '200':
+          description: Versions found
+          content:
+            application/json:
+              schema:
+                $ref: 'i3-common.yaml#/components/schemas/VersionsArray'
+components:
+  schemas:
+    Registration:
+      type: object
+      required:
+        - queueUri
+        - dequeuerUri
+        - expirationTime
+      properties:
+        queueUri:
+          type: string
+          format: uri
+        dequeuerUri:
+          type: string
+          format: uri
+        expirationTime:
+          type: integer
+          format: int32
+          description: Time in seconds this registration will expire. expirationTime set to zero is a request to deregister.
+        dequeuePreference:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 5
