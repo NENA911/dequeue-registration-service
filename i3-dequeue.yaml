@@ -20,7 +20,7 @@ paths:
         required: true
       responses:
         '200':
-          description: Registration successfully updated/created
+          description: Registration Successfully Updated/Created
           content:
             application/json:
               schema:
@@ -31,15 +31,15 @@ paths:
                     format: int32
                     description: Time in seconds this registration will expire.
         '400':
-          description: Bad request
+          description: Bad Request
         '454':
           description: Unspecified Error
         '456':
-          description: Bad queue
+          description: Bad Queue
         '457':
-          description: Bad dequeuePreference
+          description: Bad Dequeue Preference
         '458':
-          description: Policy violation
+          description: Policy Violation
   /Versions:
     servers:
       - url: https://api.example.com/DequeueRegistration
@@ -51,7 +51,7 @@ paths:
       operationId: RetrieveVersions
       responses:
         '200':
-          description: Versions found
+          description: Versions Found
           content:
             application/json:
               schema:
